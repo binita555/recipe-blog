@@ -25,3 +25,24 @@ function recipe_blog_scripts() {
     );
 }
 add_action('wp_enqueue_scripts', 'recipe_blog_scripts');
+
+function create_recipe_cpt() {
+    register_post_type('recipe', array(
+
+        'labels' => array(
+            'name'          => 'Recipes',        // plural
+            'singular_name' => 'Recipe',         // singular
+            'add_new_item'  => 'Add New Recipe',
+        ),
+
+        'public'       => true,   // visible on frontend
+        'has_archive'  => true,   // gives archive page
+        'supports'     => array(
+            'title',              // recipe name
+            'editor',             // recipe content
+            'thumbnail',          // featured image
+        ),
+        'menu_icon' => 'dashicons-food',  // icon in dashboard
+    ));
+}
+add_action('init', 'create_recipe_cpt');
