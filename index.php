@@ -6,11 +6,19 @@
         <h1>Welcome to <?php bloginfo('name'); ?></h1>
         <p>Fresh recipes every day!</p>
 
-        <?php if (have_posts()) : ?>
+        <?php
+        $args = array(
+            'post_type' => 'recipe',
+            'posts_per_page' => 9,
+        );
+        $recipes = new WP_Query($args);
+        ?>
+
+        <?php if ($recipes->have_posts()) : ?>
 
             <div class="recipe-grid">
 
-                <?php while (have_posts()) : the_post(); ?>
+                <?php while ($recipes->have_posts()) : $recipes->the_post(); ?>
 
                     <div class="recipe-card">
 
@@ -35,13 +43,12 @@
                     </div>
 
                 <?php endwhile; ?>
+                <?php wp_reset_postdata(); ?>
 
             </div>
 
         <?php else : ?>
-
             <p>No recipes found!</p>
-
         <?php endif; ?>
 
     </div>
